@@ -1,10 +1,14 @@
 import express from "express";
+import router from "./router";
 
 const app = express();
+app.use(express.json());
 
 app.get("/", (_req, res) => {
   res.send("<h1>Tasky api endpoints</h1>");
 });
+
+app.use("/api", router);
 
 const port = process.env.PORT || 4000;
 
