@@ -77,14 +77,39 @@ export function logOut(_req: Request, res: Response) {
   }
 }
 
-// // GET /api/user: get a specific, logged in user's detail.
+export async function getLoggedinUserDetails(req: Request, res: Response) {
+  try {
+    const { ...alldetails } = req.user;
+    res.status(200).send({
+      message: "successfully fetced the details for the user logged in",
+      alldetails,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "error getting information about this user",
+    });
+  }
+}
 
-// export async function getSpecificUser(req: Request, res: Response) {
-//   try {
+export async function updateLoggedInUserInfo(req: Request, res: Response) {
+  try {
+    const { firstName, lastName, avatar, email, userName } = req.body;
+    const { id } = req.user;
 
-//   } catch (error) {
-//     res
-//       .status(500)
-//       .send({ message: "error getting information about this user" });
-//   }
-// }
+    const updatededUser = await client.user.update({
+      where: { id },
+      data: {
+        firstName: firstName && firstName,
+        lastName: lastName && lastName,
+        avatar: avatar && avatar,
+        email: email && email,
+        userName: userName && userName,
+      },
+    });
+    res
+      .status(200)
+      .send({ message: "updated user successfully", updatededUser });
+  } catch (error) {
+    res.status(500).send({ message: " error updating this logged in user" });
+  }
+}
