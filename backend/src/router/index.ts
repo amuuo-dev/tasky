@@ -5,6 +5,7 @@ import {
   logOut,
   getLoggedinUserDetails,
   updateLoggedInUserInfo,
+  updateUserPassword,
 } from "../controllers/user.controller";
 import { verifyUserFields } from "../middleware/verifyUserFields";
 import { uniqueEmail } from "../middleware/uniqueEmail";
@@ -18,5 +19,6 @@ router.post("/auth/login", verifyLogin, loginUser);
 router.post("/auth/logout", logOut);
 router.get("/user", verifyUserPresent, getLoggedinUserDetails);
 router.patch("/user", verifyUserPresent, updateLoggedInUserInfo);
+router.patch("/user/password", verifyUserPresent, updateUserPassword);
 
 export default router;

@@ -113,3 +113,55 @@ export async function updateLoggedInUserInfo(req: Request, res: Response) {
     res.status(500).send({ message: " error updating this logged in user" });
   }
 }
+
+export async function updateUserPassword(req: Request, res: Response) {
+  try {
+    const { id } = req.user;
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      res.status(400).send({
+        message: "both current password and old password are neeeded",
+      });
+      return;
+    }
+
+    const user = await client.user.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      res.status(400).send({ message: "couldn't user with this id" });
+      return;
+    }
+
+    const comparePassword = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!comparePassword) {
+      res.status(401).send({
+        message: "current password does't match password in database",
+      });
+      return;
+    }
+
+    const hashNewPassword = await bcrypt.hash(newPassword, 12);
+
+    await client.user.update({
+      where: { id },
+      data: {
+        password: hashNewPassword,
+      },
+    });
+
+    res.status(200).send({ message: "successfully updated password" });
+  } catch (error) {
+    res.status(500).send({
+      message: "error updating password",
+    });
+  }
+}
