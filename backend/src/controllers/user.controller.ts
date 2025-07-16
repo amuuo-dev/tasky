@@ -76,3 +76,15 @@ export function logOut(_req: Request, res: Response) {
     res.status(500).send({ message: "failed logging you out" });
   }
 }
+
+// // GET /api/user: get a specific, logged in user's detail.
+
+// export async function getSpecificUser(req: Request, res: Response) {
+//   try {
+
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .send({ message: "error getting information about this user" });
+//   }
+// }
