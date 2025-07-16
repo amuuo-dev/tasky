@@ -56,7 +56,7 @@ export async function loginUser(req: Request, res: Response) {
     const token = jwt.sign(otherProperities, process.env.JWT_SECRET!);
 
     res
-      .cookie("tasky-token", token, {
+      .cookie("taskytoken", token, {
         httpOnly: true,
         secure: false,
         sameSite: "lax",
@@ -65,5 +65,14 @@ export async function loginUser(req: Request, res: Response) {
       .send(otherProperities);
   } catch (error) {
     res.status(500).send({ message: "failed to login" });
+  }
+}
+
+export function logOut(_req: Request, res: Response) {
+  try {
+    res.clearCookie("taskytoken");
+    res.status(200).send({ message: "you have successfully logout" });
+  } catch (error) {
+    res.status(500).send({ message: "failed logging you out" });
   }
 }
