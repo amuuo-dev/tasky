@@ -7,10 +7,12 @@ import {
   updateLoggedInUserInfo,
   updateUserPassword,
 } from "../controllers/user.controller";
+import { createTask } from "../controllers/task.controller";
 import { verifyUserFields } from "../middleware/verifyUserFields";
 import { uniqueEmail } from "../middleware/uniqueEmail";
 import { verifyLogin } from "../middleware/verifyLogin";
 import { verifyUserPresent } from "../middleware/verifyUserPresent";
+import { verifyTasksInputs } from "../middleware/verifyTasksInputs";
 
 const router = Router();
 
@@ -20,5 +22,7 @@ router.post("/auth/logout", logOut);
 router.get("/user", verifyUserPresent, getLoggedinUserDetails);
 router.patch("/user", verifyUserPresent, updateLoggedInUserInfo);
 router.patch("/user/password", verifyUserPresent, updateUserPassword);
+
+router.post("/tasks", verifyTasksInputs, verifyUserPresent, createTask);
 
 export default router;
