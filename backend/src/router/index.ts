@@ -7,7 +7,12 @@ import {
   updateLoggedInUserInfo,
   updateUserPassword,
 } from "../controllers/user.controller";
-import { createTask } from "../controllers/task.controller";
+import {
+  createTask,
+  getAllUserTasks,
+  getSpecificTaskById,
+  updateTaskById,
+} from "../controllers/task.controller";
 import { verifyUserFields } from "../middleware/verifyUserFields";
 import { uniqueEmail } from "../middleware/uniqueEmail";
 import { verifyLogin } from "../middleware/verifyLogin";
@@ -24,5 +29,8 @@ router.patch("/user", verifyUserPresent, updateLoggedInUserInfo);
 router.patch("/user/password", verifyUserPresent, updateUserPassword);
 
 router.post("/tasks", verifyTasksInputs, verifyUserPresent, createTask);
+router.get("/tasks", verifyUserPresent, getAllUserTasks);
+router.get("/tasks/:id", verifyUserPresent, getSpecificTaskById);
+router.patch("/tasks/:id", verifyUserPresent, updateTaskById);
 
 export default router;
