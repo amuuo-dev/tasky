@@ -115,9 +115,8 @@ export async function restoreDeletedTask(req: Request, res: Response) {
     });
 
     if (!task) {
-      return res
-        .status(404)
-        .send({ message: "Task not found or is not deleted" });
+      res.status(404).send({ message: "Task not found or is not deleted" });
+      return;
     }
 
     await client.task.update({
@@ -130,5 +129,44 @@ export async function restoreDeletedTask(req: Request, res: Response) {
     res.status(200).send({ message: "successfully restored deleted message" });
   } catch (error) {
     res.status(500).send({ message: "error restoring the deleted task" });
+  }
+}
+
+export async function markTaskAsComplete(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    await client.task.update({
+      where: { id },
+      data: {
+        isCompleted: true,
+      },
+    });
+    res.status(200).send({ message: "successfully marked task as complete" });
+  } catch (error) {
+    res.status(500).send({ message: "error marking task as complete" });
+  }
+}
+
+export async function markTaskAsInComplete(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const task = await client.task.findFirst({
+      where: { id, isDeleted: false },
+    });
+    if (!task) {
+      res.status(400).send({ message: "task not found or not incomplete" });
+      return;
+    }
+    const incomplete = await client.task.update({
+      where: { id },
+      data: {
+        isCompleted: false,
+      },
+    });
+    res
+      .status(200)
+      .send({ message: "successfully marked task as incomplete", incomplete });
+  } catch (error) {
+    res.status(500).send({ message: "error marking tas as incomplete" });
   }
 }
