@@ -1,8 +1,27 @@
+import { ToastContainer } from "react-toastify";
+
+import Home from "./pages/Home";
+import Header from "./components/Header";
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">tasky project setup</h1>
-    </div>
+    <>
+      <Header />
+      <div>
+        <Home />
+      </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 };
 
