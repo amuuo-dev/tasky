@@ -2,6 +2,8 @@ import { ToastContainer } from "react-toastify";
 
 import Home from "./pages/Home";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 const App = () => {
   return (
     <div>
@@ -9,6 +11,7 @@ const App = () => {
       <div>
         <Home />
       </div>
+      <Footer />
       <ToastContainer
         position="bottom-right"
         autoClose={3000}

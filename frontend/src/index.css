@@ -8,3 +8,17 @@ body {
 .work-sans {
   font-family: "Work Sans", sans-serif;
 }
+.heading {
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 8px;
+}
+.my-link {
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.my-link:hover {
+  text-decoration: underline;
+}
