@@ -22,10 +22,17 @@ import { uniqueEmail } from "../middleware/uniqueEmail";
 import { verifyLogin } from "../middleware/verifyLogin";
 import { verifyUserPresent } from "../middleware/verifyUserPresent";
 import { verifyTasksInputs } from "../middleware/verifyTasksInputs";
+import { passwordStrength } from "../middleware/passwordStrength";
 
 const router = Router();
 
-router.post("/auth/register", verifyUserFields, uniqueEmail, registerUser);
+router.post(
+  "/auth/register",
+  verifyUserFields,
+  uniqueEmail,
+  passwordStrength,
+  registerUser
+);
 router.post("/auth/login", verifyLogin, loginUser);
 router.post("/auth/logout", logOut);
 router.get("/user", verifyUserPresent, getLoggedinUserDetails);
