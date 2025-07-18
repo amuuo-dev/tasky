@@ -3,9 +3,9 @@ import { CheckSquare } from "lucide-react";
 const Footer = () => {
   return (
     <div className="py-24 px-9 bg-blue-50">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col md:flex-row justify-between items-start gap-y-10 gap-x-6">
         <div className="flex items-center cursor-pointer">
-          <h2 className="md:text-3xl text-1.5xl font-extrabold uppercase text-blue-700">
+          <h2 className="md:text-3xl text-xl font-extrabold uppercase text-blue-700">
             Tasky
           </h2>
           <CheckSquare className="md:w-6 md:h-6 w-4 h-4 text-blue-700 translate-y-[-0.5em]" />

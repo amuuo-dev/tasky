@@ -1,5 +1,6 @@
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const NewsLetter = () => {
   return (
@@ -14,9 +15,11 @@ const NewsLetter = () => {
           disabled
           className="md:w-1/4 sm:w-3/4 w-4/4 md:py-6 sm:py-4 py-2 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-200 cursor-not-allowed"
         />
-        <Button className="cursor-pointer bg-blue-700 text-white md:py-6 sm:py-4 py-2">
-          Sign up - it's free!
-        </Button>
+        <Link to="/signup">
+          <Button className="cursor-pointer bg-blue-700 text-white md:py-6 sm:py-4 py-2">
+            Sign up - it's free!
+          </Button>
+        </Link>
       </div>
     </div>
   );

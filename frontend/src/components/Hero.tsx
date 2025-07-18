@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const images = [
@@ -32,9 +33,11 @@ const Hero = () => {
           centralized platform for tasks, docs and teamwork.
         </p>
         <div className="flex justify-center">
-          <Button className="bg-blue-400 cursor-pointer text-white px-18 py-5 tracking-wide">
-            Start Building Now!
-          </Button>
+          <Link to="/signup">
+            <Button className="bg-blue-400 cursor-pointer text-white px-18 py-5 tracking-wide">
+              Start Building Now!
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="py-10 bg-white">
