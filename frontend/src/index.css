@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
+body {
+  background-color: #fcf8ff;
+  font-family: "Figtree", sans-serif;
+}
+.work-sans {
+  font-family: "Work Sans", sans-serif;
+}
