@@ -38,6 +38,9 @@ const Hero = () => {
         </div>
       </div>
       <div className="py-10 bg-white">
+        <h2 className="text-center work-sans md:p-4 p-2 font-semibold capitalize md:text-2xl sm:text-lg text-base md:tracking-wide">
+          Why manage tasks with Tasky?
+        </h2>
         <div className="flex overflow-hidden justify-center items-center">
           {images.map((item, index) => (
             <div
