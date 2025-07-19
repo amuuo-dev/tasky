@@ -31,6 +31,7 @@ export async function getAllUserTasks(req: Request, res: Response) {
       where: {
         userId: id,
         isDeleted: false,
+        isCompleted: false,
       },
     });
     res

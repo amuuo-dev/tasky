@@ -18,6 +18,7 @@ import { BASE_URL } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
+import useUser from "@/store/userStore";
 
 type UserProps = {
   email: string;
@@ -30,6 +31,8 @@ const Login = () => {
   const [dbError, setDbError] = useState("");
 
   const navigate = useNavigate();
+
+  const { setUser } = useUser();
 
   async function loginUser(user: UserProps) {
     try {
@@ -61,7 +64,8 @@ const Login = () => {
     onError: (error) => {
       setDbError(error.message);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setUser(data);
       navigate("/tasks");
     },
   });

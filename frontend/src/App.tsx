@@ -6,7 +6,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import AllTasks from "./pages/AllTasks";
+import Task from "./pages/Task";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 const App = () => {
   return (
@@ -17,7 +18,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/tasks" element={<AllTasks />} />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoutes>
+                <Task />
+              </ProtectedRoutes>
+            }
+          />
         </Routes>
       </div>
       <Footer />
