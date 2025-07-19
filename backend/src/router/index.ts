@@ -1,11 +1,11 @@
 import { Router } from "express";
 import {
-  registerUser,
   loginUser,
   logOut,
   getLoggedinUserDetails,
   updateLoggedInUserInfo,
   updateUserPassword,
+  registerUser,
 } from "../controllers/user.controller";
 import {
   createTask,

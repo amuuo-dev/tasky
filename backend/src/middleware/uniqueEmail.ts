@@ -3,7 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 const client = new PrismaClient();
 
-export async function uniqueEmail(req: Request, res: Response) {
+export async function uniqueEmail(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const { email } = req.body;
   const similarEmail = await client.user.findFirst({
     where: { email },
@@ -14,4 +18,5 @@ export async function uniqueEmail(req: Request, res: Response) {
       .send({ message: "this email is already taken, enter different email" });
     return;
   }
+  next();
 }
