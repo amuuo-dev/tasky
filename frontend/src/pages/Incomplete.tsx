@@ -38,7 +38,7 @@ type TaskProps = {
   isCompleted: boolean;
 };
 
-const Task = () => {
+const Incomplete = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["tasks"],
     queryFn: getAllIncompleteTasks,
@@ -69,7 +69,7 @@ const Task = () => {
                   {task.description}
                 </CardDescription>
               </CardHeader>
-              <CardFooter className="flex justify-between items-center">
+              <CardFooter className="flex justify-between items-center gap-2">
                 <Button
                   className="cursor-pointer hover:text-white hover:bg-blue-500"
                   variant="outline"
@@ -99,4 +99,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default Incomplete;

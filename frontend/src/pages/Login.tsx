@@ -112,6 +112,7 @@ const Login = () => {
                   type="email"
                   placeholder="m@example.com"
                   required
+                  className="focus:ring-blue-200 "
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -127,6 +128,7 @@ const Login = () => {
                   id="password"
                   type="password"
                   value={password}
+                  className="focus:ring-blue-200 "
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />

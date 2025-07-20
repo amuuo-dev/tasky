@@ -171,3 +171,23 @@ export async function markTaskAsInComplete(req: Request, res: Response) {
     res.status(500).send({ message: "error marking tas as incomplete" });
   }
 }
+
+export async function getCompletedTask(req: Request, res: Response) {
+  try {
+    const { id } = req.user;
+
+    const completed = await client.task.findMany({
+      where: {
+        userId: id,
+        isCompleted: false,
+        isDeleted: false,
+      },
+    });
+
+    res
+      .status(200)
+      .send({ message: "successfully fetched all completedTasks", completed });
+  } catch (error) {
+    res.status(500).send({ message: "ERROR fetching your specific task" });
+  }
+}

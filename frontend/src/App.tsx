@@ -6,8 +6,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import Task from "./pages/Task";
+import Incomplete from "./pages/Incomplete";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Completed from "./pages/Completed";
 
 const App = () => {
   return (
@@ -22,7 +23,15 @@ const App = () => {
             path="/tasks"
             element={
               <ProtectedRoutes>
-                <Task />
+                <Incomplete />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/completed"
+            element={
+              <ProtectedRoutes>
+                <Completed />
               </ProtectedRoutes>
             }
           />
