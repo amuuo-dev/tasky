@@ -9,7 +9,7 @@ const Header = () => {
   const navLinkClass = ({ isActive }: { isActive: boolean }) => {
     return isActive
       ? "text-blue-700 border-blue-300 border px-3 py-0.8 bg-[#F5FEFA] rounded-sm"
-      : "text-blue-700 font-medium md:text-lg";
+      : "text-blue-700 font-medium";
   };
 
   function capitalizeFirstName(name: string) {
@@ -28,7 +28,7 @@ const Header = () => {
         </header>
       </NavLink>
       {!user ? (
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <NavLink to="/login">
             <Button
               variant="link"
@@ -44,9 +44,12 @@ const Header = () => {
           </NavLink>
         </div>
       ) : (
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <NavLink to="/tasks" className={navLinkClass}>
             Tasks
+          </NavLink>
+          <NavLink to="/create" className={navLinkClass}>
+            Create
           </NavLink>
           <NavLink to="/completed" className={navLinkClass}>
             Completed

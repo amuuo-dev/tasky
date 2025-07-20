@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Incomplete from "./pages/Incomplete";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Completed from "./pages/Completed";
+import CreateTask from "./pages/CreateTask";
 
 const App = () => {
   return (
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <ProtectedRoutes>
                 <Completed />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoutes>
+                <CreateTask />
               </ProtectedRoutes>
             }
           />
