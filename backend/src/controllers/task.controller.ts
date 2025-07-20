@@ -179,7 +179,7 @@ export async function getCompletedTask(req: Request, res: Response) {
     const completed = await client.task.findMany({
       where: {
         userId: id,
-        isCompleted: false,
+        isCompleted: true,
         isDeleted: false,
       },
     });
