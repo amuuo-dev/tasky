@@ -17,6 +17,7 @@ import { BASE_URL } from "@/constants";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type UserProps = {
   firstName: string;
@@ -66,9 +67,11 @@ const SignUp = () => {
     mutationFn: createUser,
     onError: (error: Error) => {
       setDbError(error.message);
+      toast.error("problem trying to signing you in");
     },
     onSuccess: () => {
       navigate("/login");
+      toast.success("successfully signed in");
     },
   });
 

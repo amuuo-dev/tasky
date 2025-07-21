@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import useUser from "@/store/userStore";
+import { toast } from "react-toastify";
 
 type UserProps = {
   email: string;
@@ -61,12 +62,14 @@ const Login = () => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: loginUser,
-    onError: (error) => {
-      setDbError(error.message);
-    },
     onSuccess: (data) => {
       setUser(data);
       navigate("/tasks");
+      toast.success("successfully logged in");
+    },
+    onError: (error) => {
+      setDbError(error.message);
+      toast.error("error logging in");
     },
   });
 

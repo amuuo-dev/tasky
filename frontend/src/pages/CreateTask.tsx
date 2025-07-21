@@ -2,6 +2,7 @@ import { BASE_URL } from "@/constants";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import {
   Card,
@@ -57,6 +58,12 @@ const CreateTask = () => {
     mutationFn: createTask,
     onSuccess: () => {
       navigate("/tasks");
+      toast.success("successfully created task");
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setDbError(error.message);
+      toast.error("failed to create task");
     },
   });
 
