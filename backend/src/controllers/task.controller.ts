@@ -191,3 +191,16 @@ export async function getCompletedTask(req: Request, res: Response) {
     res.status(500).send({ message: "ERROR fetching your specific task" });
   }
 }
+
+export async function getAllDeletedTask(req: Request, res: Response) {
+  try {
+    const deleted = await client.task.findMany({
+      where: { isDeleted: true },
+    });
+    res
+      .status(200)
+      .send({ message: "successfully fetched all deleted task", deleted });
+  } catch (error) {
+    res.status(500).send({ message: "error getting all deleted tasks" });
+  }
+}

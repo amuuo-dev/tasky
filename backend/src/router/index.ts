@@ -17,6 +17,7 @@ import {
   markTaskAsComplete,
   markTaskAsInComplete,
   getCompletedTask,
+  getAllDeletedTask,
 } from "../controllers/task.controller";
 import { verifyUserFields } from "../middleware/verifyUserFields";
 import { uniqueEmail } from "../middleware/uniqueEmail";
@@ -43,6 +44,7 @@ router.patch("/user/password", verifyUserPresent, updateUserPassword);
 router.post("/tasks", verifyTasksInputs, verifyUserPresent, createTask);
 router.get("/tasks", verifyUserPresent, getAllUserTasks);
 router.get("/tasks/completed", verifyUserPresent, getCompletedTask);
+router.get("/tasks/deleted", verifyUserPresent, getAllDeletedTask);
 router.get("/tasks/:id", verifyUserPresent, getSpecificTaskById);
 router.patch("/tasks/:id", verifyUserPresent, updateTaskById);
 router.patch("/tasks/delete/:id", verifyUserPresent, markTaskAsDeleted);
