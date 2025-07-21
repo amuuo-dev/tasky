@@ -6,14 +6,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 import { SquarePen, Trash } from "lucide-react";
 const Task = ({
   title,
   description,
+  id,
 }: {
   title: string;
   description: string;
+  id: string;
 }) => {
   return (
     <Card className="flex-1 border-none">
@@ -25,21 +28,23 @@ const Task = ({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardFooter className="flex justify-between items-center gap-2">
+      <CardFooter className="flex gap-4">
         <Button
-          className="cursor-pointer hover:text-white hover:bg-blue-500"
+          className="cursor-pointer hover:text-white hover:bg-blue-500 flex-1"
           variant="outline"
         >
           mark as Complete
         </Button>
         <Button
-          className="cursor-pointer border-blue-500 hover:bg-blue-400 hover:text-white"
+          className="cursor-pointer border-blue-500 hover:bg-blue-400 hover:text-white flex-1"
           variant="outline"
         >
-          Update <SquarePen />
+          <Link to={`/edit/${id}`} className="flex items-center gap-1">
+            Update <SquarePen />
+          </Link>
         </Button>
         <Button
-          className="cursor-pointer hover:text-red-500 border-red-200 hover:bg-red-200"
+          className="cursor-pointer hover:text-red-500 border-red-200 hover:bg-red-200 flex-1"
           variant="outline"
         >
           Delete <Trash className="text-red-500" />

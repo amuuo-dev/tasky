@@ -48,6 +48,7 @@ const Completed = () => {
               key={completed.id}
               title={completed.title}
               description={completed.description}
+              id={completed.id}
             />
           ))
         ) : (

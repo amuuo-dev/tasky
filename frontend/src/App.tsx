@@ -10,6 +10,7 @@ import Incomplete from "./pages/Incomplete";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Completed from "./pages/Completed";
 import CreateTask from "./pages/CreateTask";
+import Update from "./pages/Update";
 
 const App = () => {
   return (
@@ -41,6 +42,14 @@ const App = () => {
             element={
               <ProtectedRoutes>
                 <CreateTask />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoutes>
+                <Update />
               </ProtectedRoutes>
             }
           />

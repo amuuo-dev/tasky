@@ -56,6 +56,7 @@ const Incomplete = () => {
               key={task.id}
               title={task.title}
               description={task.description}
+              id={task.id}
             />
           ))
         ) : (
