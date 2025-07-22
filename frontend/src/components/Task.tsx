@@ -18,6 +18,7 @@ type TaskProps = {
   description: string;
   id: string;
   variant?: "default" | "trash";
+  status?: "complete" | "incomplete";
 };
 
 async function deleteTask(id: string) {
@@ -61,7 +62,59 @@ async function restoreTask(id: string) {
   }
 }
 
-const Task = ({ title, description, id, variant = "default" }: TaskProps) => {
+async function markTaskAsComplete(id: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/complete/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("error marking this task as complete", error);
+    throw error;
+  }
+}
+
+async function markTaskAsIncomplete(id: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/incomplete/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("error marking this task as incomplete", error);
+    throw error;
+  }
+}
+
+const Task = ({
+  title,
+  description,
+  id,
+  variant = "default",
+  status = "complete",
+}: TaskProps) => {
   const navigate = useNavigate();
 
   const mutationFn = variant === "trash" ? restoreTask : deleteTask;
@@ -86,6 +139,27 @@ const Task = ({ title, description, id, variant = "default" }: TaskProps) => {
     },
   });
 
+  const statusMutation = useMutation({
+    mutationKey: [status === "complete" ? "mark-incomplete" : "mark-complete"],
+    mutationFn:
+      status === "complete" ? markTaskAsIncomplete : markTaskAsComplete,
+    onSuccess: () => {
+      toast.success(
+        status === "complete"
+          ? "Marked task as incomplete!"
+          : "Marked task as complete!"
+      );
+      navigate(status === "complete" ? "/tasks" : "/completed");
+    },
+    onError: () => {
+      toast.error(
+        status === "complete"
+          ? "Failed to mark task as incomplete"
+          : "Failed to mark task as complete"
+      );
+    },
+  });
+
   return (
     <Card className="flex-1 border-none">
       <CardHeader>
@@ -102,8 +176,15 @@ const Task = ({ title, description, id, variant = "default" }: TaskProps) => {
             <Button
               className="cursor-pointer hover:text-white hover:bg-blue-500 flex-1"
               variant="outline"
+              onClick={() => statusMutation.mutate(id)}
             >
-              mark as Complete
+              {statusMutation.isPending
+                ? status === "incomplete"
+                  ? "Marking..."
+                  : "Reverting..."
+                : status === "incomplete"
+                ? "Mark as Complete"
+                : "Mark as Incomplete"}
             </Button>
             <Button
               className="cursor-pointer border-blue-500 hover:bg-blue-400 hover:text-white flex-1"

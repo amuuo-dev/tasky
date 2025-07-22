@@ -59,6 +59,7 @@ const Incomplete = () => {
               title={task.title}
               description={task.description}
               id={task.id}
+              status={task.isCompleted ? "complete" : "incomplete"}
             />
           ))
         ) : (
@@ -69,7 +70,7 @@ const Incomplete = () => {
                 You have NO tasks created
               </AlertTitle>
               <AlertDescription>
-                <p>Created tasks to be able to see them displayed here</p>
+                <p>Create task to be able to see it displayed here</p>
               </AlertDescription>
             </Alert>
           </div>

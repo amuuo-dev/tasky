@@ -21,6 +21,36 @@ type TaskUpdateByIdProps = {
   description: string;
 };
 
+async function markTaskAsIncomplete(id: string) {
+  const response = await fetch(`${BASE_URL}/tasks/incomplete/${id}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+  return data;
+}
+
+async function markTaskAsComplete(id: string) {
+  const response = await fetch(`${BASE_URL}/tasks/complete/${id}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+  return data;
+}
+
 const Update = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -89,6 +119,25 @@ const Update = () => {
     },
   });
 
+  const statusMutation = useMutation({
+    mutationKey: [data?.isCompleted ? "mark-incomplete" : "mark-complete"],
+    mutationFn: () =>
+      data?.isCompleted
+        ? markTaskAsIncomplete(id as string)
+        : markTaskAsComplete(id as string),
+    onSuccess: () => {
+      toast.success(
+        data?.isCompleted
+          ? "Marked task as incomplete!"
+          : "Marked task as complete!"
+      );
+      navigate(data?.isCompleted ? "/tasks" : "/completed");
+    },
+    onError: () => {
+      toast.error("Error updating task status");
+    },
+  });
+
   function handleUpdateTask(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const task = { title, description };
@@ -146,9 +195,17 @@ const Update = () => {
           </Button>
           <Button
             variant="outline"
-            className="flex-1 cursor-pointer  bg-blue-700 text-white hover:bg-blue-500 "
+            className="flex-1 cursor-pointer  bg-blue-700 text-white hover:bg-blue-500"
+            onClick={() => statusMutation.mutate()}
+            disabled={statusMutation.isPending}
           >
-            mark as Incomplete
+            {statusMutation.isPending
+              ? data?.isCompleted
+                ? "Reverting..."
+                : "Marking..."
+              : data?.isCompleted
+              ? "Mark as Incomplete"
+              : "Mark as Complete"}
           </Button>
         </CardFooter>
       </Card>
