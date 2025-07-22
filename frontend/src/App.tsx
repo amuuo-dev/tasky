@@ -11,6 +11,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Completed from "./pages/Completed";
 import CreateTask from "./pages/CreateTask";
 import Update from "./pages/Update";
+import Trash from "./pages/Trash";
 
 const App = () => {
   return (
@@ -53,6 +54,14 @@ const App = () => {
               </ProtectedRoutes>
             }
           />
+          <Route
+            path="/trash"
+            element={
+              <ProtectedRoutes>
+                <Trash />
+              </ProtectedRoutes>
+            }
+          />
         </Routes>
       </div>
       <Footer />
@@ -66,7 +75,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
     </div>
   );

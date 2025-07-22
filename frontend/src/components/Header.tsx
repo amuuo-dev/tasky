@@ -54,12 +54,10 @@ const Header = () => {
           <NavLink to="/completed" className={navLinkClass}>
             Completed
           </NavLink>
-          {/* <NavLink to="#" className={navLinkClass}>
-            Completed
-          </NavLink>
-          <NavLink to="#" className={navLinkClass}>
+          <NavLink to="/trash" className={navLinkClass}>
             Trash
           </NavLink>
+          {/*
           <NavLink to="#" className={navLinkClass}>
             Profile
           </NavLink> */}
