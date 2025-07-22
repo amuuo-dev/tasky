@@ -49,6 +49,7 @@ const Trash = () => {
               title={completed.title}
               description={completed.description}
               id={completed.id}
+              variant="trash"
             />
           ))
         ) : (
