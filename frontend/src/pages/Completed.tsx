@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "@/constants";
 import Task from "@/components/Task";
 import { type TaskProps } from "./Incomplete";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 async function fetchAllCompletedTasks() {
   try {
@@ -38,9 +40,11 @@ const Completed = () => {
 
   return (
     <div>
-      <h1 className="md:mb-4 mb-2 uppercase font-semibold work-sans md:text-xl text-base text-center">
-        This are all your completed tasks
-      </h1>
+      {data.length > 0 && (
+        <h1 className="md:mb-4 mb-2 uppercase font-semibold work-sans md:text-xl text-base text-center">
+          This are all your completed tasks
+        </h1>
+      )}
       <div className="flex gap-4 flex-wrap p-4">
         {data.length > 0 ? (
           data.map((completed: TaskProps) => (
@@ -52,8 +56,19 @@ const Completed = () => {
             />
           ))
         ) : (
-          <div className="md:mb-4 mb-2 uppercase font-semibold work-sans md:text-xl text-base text-center">
-            you dont have any completed tasks
+          <div className="grid gap-4 w-full max-w-xl m-auto md:p-6 p-4">
+            <Alert className="text-red-600">
+              <AlertCircleIcon />
+              <AlertTitle className="text-base font-medium">
+                You have NO completed tasks
+              </AlertTitle>
+              <AlertDescription>
+                <p>
+                  Please make sure you have reported tasks as completed to see
+                  them here.
+                </p>
+              </AlertDescription>
+            </Alert>
           </div>
         )}
       </div>

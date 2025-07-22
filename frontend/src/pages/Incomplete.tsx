@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "@/constants";
 import Task from "@/components/Task";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 async function getAllIncompleteTasks() {
   try {
@@ -60,8 +62,16 @@ const Incomplete = () => {
             />
           ))
         ) : (
-          <div className="md:mb-4 mb-2 uppercase font-semibold work-sans md:text-xl text-base text-center">
-            you don't have any tasks
+          <div className="grid gap-4 w-full max-w-xl m-auto md:p-6 p-4">
+            <Alert className="text-red-600">
+              <AlertCircleIcon />
+              <AlertTitle className="text-base font-medium">
+                You have NO tasks created
+              </AlertTitle>
+              <AlertDescription>
+                <p>Created tasks to be able to see them displayed here</p>
+              </AlertDescription>
+            </Alert>
           </div>
         )}
       </div>
