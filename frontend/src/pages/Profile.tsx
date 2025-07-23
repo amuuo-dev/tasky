@@ -10,7 +10,7 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BASE_URL } from "@/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -24,6 +24,32 @@ type updateUserInfoProps = {
   avatar: string | null | File;
 };
 
+type updatePasswordProps = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+async function updatePassword(password: updatePasswordProps) {
+  try {
+    const response = await fetch(`${BASE_URL}/user/password`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(password),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+    return data;
+  } catch (error) {
+    console.log("failed to update password", error);
+    throw error;
+  }
+}
+
 const Profile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,6 +59,9 @@ const Profile = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [imageError, setImageError] = useState("");
   const [message, setMessage] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const { data: user } = useUserQuery();
   const queryClient = useQueryClient();
@@ -115,6 +144,22 @@ const Profile = () => {
     },
   });
 
+  const { mutate: mutateUpdatePassword, isPending: isPendingPassword } =
+    useMutation({
+      mutationKey: ["update-user-password"],
+      mutationFn: updatePassword,
+      onSuccess: () => {
+        setCurrentPassword("");
+        setNewPassword("");
+        toast.success("you have successfully updated your password");
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (error: any) => {
+        setPasswordError(error.message);
+        toast.error("error, can't update your password");
+      },
+    });
+
   async function handleUpdatingUserInfo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setMessage("");
@@ -133,6 +178,13 @@ const Profile = () => {
       avatar: imageUrl,
     };
     mutate(userInfo);
+  }
+
+  function handleUpdatePassword(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setPasswordError("");
+    const password = { currentPassword, newPassword };
+    mutateUpdatePassword(password);
   }
 
   return (
@@ -210,7 +262,7 @@ const Profile = () => {
           )}
           <CardFooter>
             <Button
-              className="w-full bg-blue-700 text-white hover:bg-blue-500"
+              className="w-full bg-blue-700 text-white hover:bg-blue-500 cursor-pointer"
               variant="outline"
               form="update-user"
               disabled={isPending || isUploading}
@@ -221,7 +273,9 @@ const Profile = () => {
                 ? "Updating Information..."
                 : "Update Info"}
             </Button>
-            {message && <p>{message}</p>}
+            {message && (
+              <p className="text-red-500 font-medium text-center">{message}</p>
+            )}
           </CardFooter>
         </Card>
 
@@ -235,7 +289,7 @@ const Profile = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
+            <form id="update-password" onSubmit={handleUpdatePassword}>
               <div className="flex flex-col gap-4">
                 <div>
                   <Label htmlFor="currentPassword">Current Password</Label>
@@ -244,6 +298,8 @@ const Profile = () => {
                     type="password"
                     className="focus:ring-blue-200"
                     required
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
                   />
                 </div>
                 <div>
@@ -253,17 +309,26 @@ const Profile = () => {
                     type="password"
                     className="focus:ring-blue-200"
                     required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
                   />
                 </div>
               </div>
             </form>
           </CardContent>
+          {passwordError && (
+            <p className="text-red-500 font-medium text-center">
+              {passwordError}
+            </p>
+          )}
           <CardFooter className="flex flex-col gap-3">
             <Button
               className="w-full bg-blue-700 text-white hover:bg-blue-500"
               variant="outline"
+              form="update-password"
+              disabled={isPendingPassword}
             >
-              Update Password
+              {isPendingPassword ? "Updating password..." : "Update Password"}
             </Button>
             <Button
               className="w-full bg-red-600 text-white hover:bg-red-500"

@@ -154,7 +154,7 @@ export async function updateUserPassword(req: Request, res: Response) {
     });
 
     if (!user) {
-      res.status(400).send({ message: "couldn't user with this id" });
+      res.status(400).send({ message: "couldn't find user with this id" });
       return;
     }
 
