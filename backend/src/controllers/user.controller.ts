@@ -51,9 +51,9 @@ export async function loginUser(req: Request, res: Response) {
       return;
     }
 
-    const { password: userPassword, ...otherProperities } = user;
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
 
-    const token = jwt.sign(otherProperities, process.env.JWT_SECRET!);
+    const { password: userPassword, ...otherProperities } = user;
 
     res
       .cookie("taskytoken", token, {
@@ -79,10 +79,31 @@ export function logOut(_req: Request, res: Response) {
 
 export async function getLoggedinUserDetails(req: Request, res: Response) {
   try {
-    const { ...alldetails } = req.user;
+    const { id } = req.user;
+    const user = await client.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        avatar: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        userName: true,
+        lastUpdated: true,
+        id: true,
+        isDeleted: true,
+      },
+    });
+
+    if (!user) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
+
     res.status(200).send({
       message: "successfully fetced the details for the user logged in",
-      alldetails,
+      user,
     });
   } catch (error) {
     res.status(500).send({

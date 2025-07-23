@@ -18,10 +18,16 @@ export function verifyUserPresent(
     taskytoken,
     process.env.JWT_SECRET!,
     (err: VerifyErrors | null, decoded: JwtPayload | string | undefined) => {
-      if (err) {
+      if (
+        err ||
+        !decoded ||
+        typeof decoded !== "object" ||
+        !("id" in decoded)
+      ) {
         res.status(401).send({ message: "Unauthorized login, Please Login!" });
+        return;
       }
-      req.user = decoded as UserPayload;
+      req.user = { id: (decoded as JwtPayload).id } as UserPayload;
       next();
     }
   );
