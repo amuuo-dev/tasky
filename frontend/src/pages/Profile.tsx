@@ -43,14 +43,15 @@ const Profile = () => {
       setLastName(user.lastName);
       setUserName(user.userName);
       setEmail(user.email);
+      setProfileImage(user.avatar ?? null);
     }
   }, [user]);
 
   async function uploadProfilePicture() {
-    if (!profileImage) {
-      setImageError("profile image is required");
-      return null;
+    if (!(profileImage instanceof File)) {
+      return typeof profileImage === "string" ? profileImage : null;
     }
+
     const formData = new FormData();
     formData.append("file", profileImage);
     formData.append("upload_preset", "antooo");
