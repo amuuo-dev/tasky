@@ -2,7 +2,6 @@ import { CheckSquare, MoveRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
 import useUser from "@/store/userStore";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const Header = () => {
   const { user } = useUser();
@@ -62,17 +61,20 @@ const Header = () => {
             Profile
           </NavLink>
           <div>
-            <Avatar>
-              <AvatarImage
-                src={user.avatar}
-                alt={`${user.firstName} profile image`}
-                className="w-10 h-10"
-              />
-              <AvatarFallback className="w-10 h-10 bg-blue-500 text-white text-base font-semibold flex justify-center items-center rounded-full">
-                {capitalizeFirstName(user.firstName)[0]}
-                {capitalizeFirstName(user.lastName)[0]}
-              </AvatarFallback>
-            </Avatar>
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm">
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={`${user.firstName} profile image`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-blue-500 text-white text-lg font-semibold flex justify-center items-center">
+                  {capitalizeFirstName(user.firstName)[0]}
+                  {capitalizeFirstName(user.lastName)[0]}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

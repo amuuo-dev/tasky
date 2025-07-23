@@ -10,11 +10,11 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import useUser from "@/store/userStore";
 import { useState, useEffect } from "react";
 import { BASE_URL } from "@/constants";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useUserQuery } from "@/hooks/useUserQuery";
 
 type updateUserInfoProps = {
   firstName: string;
@@ -34,7 +34,8 @@ const Profile = () => {
   const [imageError, setImageError] = useState("");
   const [message, setMessage] = useState("");
 
-  const { user } = useUser();
+  const { data: user } = useUserQuery();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (user) {
@@ -103,6 +104,7 @@ const Profile = () => {
     mutationKey: ["update-user-info"],
     mutationFn: updateUserInfo,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       toast.success("you successfully updated your profile");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
