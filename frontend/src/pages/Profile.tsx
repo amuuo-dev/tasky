@@ -15,6 +15,8 @@ import { BASE_URL } from "@/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useUserQuery } from "@/hooks/useUserQuery";
+import useUser from "@/store/userStore";
+import { useNavigate } from "react-router-dom";
 
 type updateUserInfoProps = {
   firstName: string;
@@ -65,6 +67,8 @@ const Profile = () => {
 
   const { data: user } = useUserQuery();
   const queryClient = useQueryClient();
+  const { logOut } = useUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -185,6 +189,22 @@ const Profile = () => {
     setPasswordError("");
     const password = { currentPassword, newPassword };
     mutateUpdatePassword(password);
+  }
+
+  async function handleLogOut() {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to log out");
+      logOut();
+      localStorage.removeItem("tasky-user");
+      toast.success("you have successfully logged out");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   }
 
   return (
@@ -323,7 +343,7 @@ const Profile = () => {
           )}
           <CardFooter className="flex flex-col gap-3">
             <Button
-              className="w-full bg-blue-700 text-white hover:bg-blue-500"
+              className="w-full bg-blue-700 text-white hover:bg-blue-500 cursor-pointer"
               variant="outline"
               form="update-password"
               disabled={isPendingPassword}
@@ -331,8 +351,9 @@ const Profile = () => {
               {isPendingPassword ? "Updating password..." : "Update Password"}
             </Button>
             <Button
-              className="w-full bg-red-600 text-white hover:bg-red-500"
+              className="w-full bg-red-600 text-white hover:bg-red-500 cursor-pointer"
               variant="outline"
+              onClick={handleLogOut}
             >
               Logout
             </Button>
