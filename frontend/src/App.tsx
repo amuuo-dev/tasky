@@ -12,6 +12,7 @@ import Completed from "./pages/Completed";
 import CreateTask from "./pages/CreateTask";
 import Update from "./pages/Update";
 import Trash from "./pages/Trash";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -59,6 +60,14 @@ const App = () => {
             element={
               <ProtectedRoutes>
                 <Trash />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoutes>
+                <Profile />
               </ProtectedRoutes>
             }
           />

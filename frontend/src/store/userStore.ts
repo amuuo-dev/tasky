@@ -8,6 +8,7 @@ type UserProps = {
   userName: string;
   avatar: string;
   lastUpdated: string;
+  email: string;
 };
 
 type UserStoreProps = {

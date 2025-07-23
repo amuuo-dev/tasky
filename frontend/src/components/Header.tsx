@@ -2,6 +2,7 @@ import { CheckSquare, MoveRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
 import useUser from "@/store/userStore";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const Header = () => {
   const { user } = useUser();
@@ -14,7 +15,7 @@ const Header = () => {
 
   function capitalizeFirstName(name: string) {
     if (!name) return "";
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    return name.charAt(0).toUpperCase();
   }
 
   return (
@@ -57,17 +58,21 @@ const Header = () => {
           <NavLink to="/trash" className={navLinkClass}>
             Trash
           </NavLink>
-          {/*
-          <NavLink to="#" className={navLinkClass}>
+          <NavLink to="/profile" className={navLinkClass}>
             Profile
-          </NavLink> */}
+          </NavLink>
           <div>
-            <h2>
-              Welcome{" "}
-              <span className="md:text-lg text-blue-700 font-medium">
-                {capitalizeFirstName(user.firstName)}
-              </span>
-            </h2>
+            <Avatar>
+              <AvatarImage
+                src={user.avatar}
+                alt={`${user.firstName} profile image`}
+                className="w-10 h-10"
+              />
+              <AvatarFallback className="w-10 h-10 bg-blue-500 text-white text-base font-semibold flex justify-center items-center rounded-full">
+                {capitalizeFirstName(user.firstName)[0]}
+                {capitalizeFirstName(user.lastName)[0]}
+              </AvatarFallback>
+            </Avatar>
           </div>
         </div>
       )}
