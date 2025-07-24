@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://tasky-frontend-rho.vercel.app",
+    origin: "https://tasky-ten-theta.vercel.app",
     credentials: true,
   })
 );
