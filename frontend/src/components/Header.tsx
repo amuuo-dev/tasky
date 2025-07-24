@@ -99,9 +99,29 @@ const Header = () => {
             </Button>
           </SheetTrigger>
           <SheetContent className="bg-[#FCF8FF]">
-            <SheetHeader>
-              <SheetTitle>Switch Pages</SheetTitle>
-              <SheetDescription>Navigate around the tasky app</SheetDescription>
+            <SheetHeader className="flex flex-row gap-3">
+              <div>
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm">
+                  {user && user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={`${user.firstName} profile image`}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-blue-500 text-white text-lg font-semibold flex justify-center items-center">
+                      {user && capitalizeFirstName(user.firstName)[0]}
+                      {user && capitalizeFirstName(user.lastName)[0]}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                <SheetTitle>Switch Pages</SheetTitle>
+                <SheetDescription>
+                  Navigate around the tasky app
+                </SheetDescription>
+              </div>
             </SheetHeader>
             <div>
               {!user ? (
