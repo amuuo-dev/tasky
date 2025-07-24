@@ -27,6 +27,7 @@ const Header = () => {
           <CheckSquare className="md:w-6 md:h-6 w-4 h-4 text-blue-700 translate-y-[-0.5em]" />
         </header>
       </NavLink>
+
       {!user ? (
         <div className="flex gap-4 items-center">
           <NavLink to="/login">

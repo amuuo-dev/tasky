@@ -194,8 +194,9 @@ export async function getCompletedTask(req: Request, res: Response) {
 
 export async function getAllDeletedTask(req: Request, res: Response) {
   try {
+    const { id } = req.user;
     const deleted = await client.task.findMany({
-      where: { isDeleted: true },
+      where: { userId: id, isDeleted: true },
     });
     res
       .status(200)
