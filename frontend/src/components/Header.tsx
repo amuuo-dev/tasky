@@ -1,7 +1,15 @@
-import { CheckSquare, MoveRight } from "lucide-react";
+import { CheckSquare, Menu, MoveRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
 import useUser from "@/store/userStore";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Header = () => {
   const { user } = useUser();
@@ -28,57 +36,113 @@ const Header = () => {
         </header>
       </NavLink>
 
-      {!user ? (
-        <div className="flex gap-4 items-center">
-          <NavLink to="/login">
-            <Button
-              variant="link"
-              className="cursor-pointer md:text-lg text-base text-blue-400"
-            >
-              Login
+      <div className="hidden md:flex gap-4 items-center">
+        {!user ? (
+          <div className="flex gap-4 items-center">
+            <NavLink to="/login">
+              <Button
+                variant="link"
+                className="cursor-pointer md:text-lg text-base text-blue-400"
+              >
+                Login
+              </Button>
+            </NavLink>
+            <NavLink to="/signup">
+              <Button className="text-blue-400 cursor-pointer border border-blue-400 hover:bg-blue-200 hover:text-blue-600 md:text-lg text-base">
+                Get Started <MoveRight />
+              </Button>
+            </NavLink>
+          </div>
+        ) : (
+          <div className="flex gap-4 items-center">
+            <NavLink to="/tasks" className={navLinkClass}>
+              Tasks
+            </NavLink>
+            <NavLink to="/create" className={navLinkClass}>
+              Create
+            </NavLink>
+            <NavLink to="/completed" className={navLinkClass}>
+              Completed
+            </NavLink>
+            <NavLink to="/trash" className={navLinkClass}>
+              Trash
+            </NavLink>
+            <NavLink to="/profile" className={navLinkClass}>
+              Profile
+            </NavLink>
+            <div>
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm">
+                {user.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={`${user.firstName} profile image`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-blue-500 text-white text-lg font-semibold flex justify-center items-center">
+                    {capitalizeFirstName(user.firstName)[0]}
+                    {capitalizeFirstName(user.lastName)[0]}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* mobile */}
+      <div className="md:hidden">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost">
+              <Menu />
             </Button>
-          </NavLink>
-          <NavLink to="/signup">
-            <Button className="text-blue-400 cursor-pointer border border-blue-400 hover:bg-blue-200 hover:text-blue-600 md:text-lg text-base">
-              Get Started <MoveRight />
-            </Button>
-          </NavLink>
-        </div>
-      ) : (
-        <div className="flex gap-4 items-center">
-          <NavLink to="/tasks" className={navLinkClass}>
-            Tasks
-          </NavLink>
-          <NavLink to="/create" className={navLinkClass}>
-            Create
-          </NavLink>
-          <NavLink to="/completed" className={navLinkClass}>
-            Completed
-          </NavLink>
-          <NavLink to="/trash" className={navLinkClass}>
-            Trash
-          </NavLink>
-          <NavLink to="/profile" className={navLinkClass}>
-            Profile
-          </NavLink>
-          <div>
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm">
-              {user.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt={`${user.firstName} profile image`}
-                  className="w-full h-full object-cover"
-                />
+          </SheetTrigger>
+          <SheetContent className="bg-[#FCF8FF]">
+            <SheetHeader>
+              <SheetTitle>Switch Pages</SheetTitle>
+              <SheetDescription>Navigate around the tasky app</SheetDescription>
+            </SheetHeader>
+            <div>
+              {!user ? (
+                <div className="flex flex-col items-center gap-4 justify-center">
+                  <NavLink to="/login">
+                    <Button
+                      variant="link"
+                      className="text-blue-400 text-left w-full"
+                    >
+                      Login
+                    </Button>
+                  </NavLink>
+                  <NavLink to="/signup">
+                    <Button className="text-blue-400 border border-blue-400 hover:bg-blue-200 hover:text-blue-600">
+                      Get Started <MoveRight />
+                    </Button>
+                  </NavLink>
+                </div>
               ) : (
-                <div className="w-full h-full bg-blue-500 text-white text-lg font-semibold flex justify-center items-center">
-                  {capitalizeFirstName(user.firstName)[0]}
-                  {capitalizeFirstName(user.lastName)[0]}
+                <div className="flex flex-col gap-4 items-center">
+                  <NavLink to="/tasks" className={navLinkClass}>
+                    Tasks
+                  </NavLink>
+                  <NavLink to="/create" className={navLinkClass}>
+                    Create
+                  </NavLink>
+                  <NavLink to="/completed" className={navLinkClass}>
+                    Completed
+                  </NavLink>
+                  <NavLink to="/trash" className={navLinkClass}>
+                    Trash
+                  </NavLink>
+                  <NavLink to="/profile" className={navLinkClass}>
+                    Profile
+                  </NavLink>
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
+          </SheetContent>
+        </Sheet>
+      </div>
     </div>
   );
 };
