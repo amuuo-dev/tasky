@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://tasky-anto.vercel.app/",
+    origin: "https://tasky-anto.vercel.app",
     credentials: true,
   })
 );
